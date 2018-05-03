@@ -1,0 +1,118 @@
+<aura:component description="Registration Form Component"
+                controller="RegistrationCtrl"
+                implements="forceCommunity:availableForAllPageTypes"
+                access="global">
+
+    <!-- Attributes -->
+    <aura:attribute name="howDidYouKnowPicklists"    type="WrapperPickListItem[]" /> 
+    
+    <aura:attribute name="registeredStatus"   type="String"     default="not" />
+    <aura:attribute name="contact"            type="Contact"    default="" />
+    <aura:attribute name="countProcess"       type="Integer" 	default="0"/>
+
+    <!-- Handlers -->
+    <aura:handler name="init" value="{! this }" action="{! c.handleInitCmp }" />
+    
+    <!-- COMPONENT BODY -->
+  	<div class="slds-is-relative">
+      	<c:TemplateMain aura:id="templateMain"
+                      spinnerSize="small"
+                      hasContent="true"
+                      labelErrorOccurred="" />
+
+        <p class="slds-p-horizontal_small slds-m-top_small slds-text-align_center registration-welcome-header">
+            {! $Label.c.Welcome_header }
+        </p>
+    
+        <aura:if isTrue="{! v.registeredStatus == 'not' }">
+            <lightning:layout >
+                <lightning:layoutItem flexibility="auto" padding="around-small">
+                    <form class="slds-form_stacked">
+                        <fieldset class="slds-box slds-theme_default">
+                            <lightning:input aura:id="input"
+                                             label="{! $Label.c.First_name }"
+                                             name="FirstName"
+                                             value="{! v.contact.FirstName }"
+                                             minlength="2"
+                                             maxlength="30"
+                                             required="true"
+                                             pattern="^[а-яА-ЯёЁa-zA-Z-']+$"
+                                             messageWhenValueMissing="{! $Label.c.Error_Message_Value_Missing }" 
+                                             messageWhenPatternMismatch="{! $Label.c.Error_Message_Bad_Input }" 
+                                             messageWhenBadInput="{! $Label.c.Error_Message_Bad_Input }" />
+    
+                            <lightning:input aura:id="input"
+                                             label="{! $Label.c.Last_name }"
+                                             name="LastName"
+                                             value="{! v.contact.LastName }"
+                                             minlength="2"
+                                             maxlength="30"
+                                             required="true"
+                                             pattern="^[а-яА-ЯёЁa-zA-Z-']+$"
+                                             messageWhenValueMissing="{! $Label.c.Error_Message_Value_Missing }" 
+                                             messageWhenPatternMismatch="{! $Label.c.Error_Message_Bad_Input }" 
+                                             messageWhenBadInput="{! $Label.c.Error_Message_Bad_Input }" />
+    
+                            <lightning:input aura:id="input"
+                                             type="email"
+                                             label="{! $Label.c.Email }"
+                                             name="Email"
+                                             value="{! v.contact.Email }"
+                                             minlength="6"
+                                             maxlength="50"
+                                             required="true"
+                                             messageWhenValueMissing="{! $Label.c.Error_Message_Value_Missing }" 
+                                             messageWhenTypeMismatch="{! $Label.c.Error_Message_Bad_Input }" />
+    
+                            <lightning:input aura:id="input"
+                                             type="tel"
+                                             label="{! $Label.c.Phone_number }"
+                                             name="Phone"
+                                             value="{! v.contact.Phone }"
+                                             pattern="[0-9]{9}"
+                                             maxlength="9"
+                                             required="true"
+                                             messageWhenValueMissing="{! $Label.c.Error_Message_Value_Missing }"
+                                             messageWhenPatternMismatch="{! $Label.c.Error_Message_Bad_Input }" />
+    
+                            <lightning:input aura:id="input"
+                                             type="text"
+                                             label="{! $Label.c.Skype }"
+                                             name="Skype"
+                                             maxlength="32"
+                                             value="{! v.contact.Skype__c }" />
+    
+                            <lightning:input aura:id="input"
+                                             type="text"
+                                             label="{! $Label.c.Company_name }"
+                                             name="CompanyName"
+                                             maxlength="100"
+                                             value="{! v.contact.Company_name__c }" />
+    
+                            <lightning:select name="mySelect" label="{! $Label.c.How_did_you_know }" value="{! v.contact.HowDidYouKnow__c }">
+                                <option text="{! $Label.c.Choose_option }" value=""></option>
+    
+                                <aura:iteration items="{!v.howDidYouKnowPicklists}" var="howDidYouKnowPicklistsItem">
+                                    <option text="{! howDidYouKnowPicklistsItem.label }" value="{! howDidYouKnowPicklistsItem.value }" />
+                                </aura:iteration>
+                            </lightning:select>
+    
+                            <lightning:button label="{! $Label.c.Register }"
+                                              class="slds-m-top_medium"
+                                              variant="brand"
+                                              onclick="{! c.handleClickRegister }" />
+                        </fieldset>
+                    </form>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:if>
+    
+        <aura:if isTrue="{! v.registeredStatus == 'now' }">
+            <aura:unescapedHtml value="{! $Label.c.Registered_now_text }" />
+        </aura:if>
+    
+        <aura:if isTrue="{! v.registeredStatus == 'already' }">
+            <aura:unescapedHtml value="{! $Label.c.Already_registered_text }" />
+        </aura:if>
+    </div>
+</aura:component>

@@ -1,0 +1,14 @@
+.THIS.request-blur,
+.THIS .request-blur {
+  filter: blur(1px);
+}
+.THIS .cmp-no-content-container,
+.THIS .cmp-spinner-container,
+.THIS .cmp-error-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+}

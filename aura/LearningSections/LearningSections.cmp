@@ -1,0 +1,62 @@
+<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes,force:appHostable" access="global" controller="LearningSectionsCtrl">
+    
+    <aura:attribute name="learningSections" type="LearningSectionsCtrl.Section__c[]"/>
+    <aura:attribute name="countProcess"     type="Integer" default="0"/>
+    <aura:attribute name="users"            type="User[]"/>
+    <aura:attribute name="isAdmin"          type="Boolean" default="false"/>
+    <aura:attribute name="selectedUser"     type="String"/>
+    
+    <aura:handler name="init" value="{! this }" action="{! c.handleInitCmp }"/>
+
+    <aura:if isTrue="{! v.countProcess > 0 }">
+        <lightning:spinner alternativeText="{! $Label.c.alt }" /> 
+    </aura:if>
+
+    <aura:if isTrue="{! v.isAdmin }">
+        
+        <form>
+            <lightning:select name="selectUser" value="{! v.selectedUser }" onchange="{! c.handleGetLearningSections }">
+                <option value="">{! $Label.c.none }</option>
+                <aura:iteration items="{! v.users }" var="user">
+                    <option value="{! user.Id }">{! user.Name }</option>
+                </aura:iteration>
+            </lightning:select>
+        </form>  
+    </aura:if>
+
+    <fieldset class="slds-box slds-theme--default">
+        <aura:iteration items="{! v.learningSections }" var="section">
+            <h1>{! section.title }</h1>
+            <h2>{! section.description }</h2>
+            <lightning:formattedUrl label="{! section.documentTitle }" value="{! section.documentURL }" target="_blank"/>
+
+            <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_resizable-cols slds-table_fixed-layout" role="grid">
+                <thead>
+                    <tr class="slds-text-heading--label">
+                        <th class="slds-is-sortable slds-text-title--caps" scope="col">
+                            <span class="slds-truncate" title="{! $Label.c.icon }">{! $Label.c.icon }</span>  
+                        </th>
+
+                        <th class="slds-is-sortable slds-text-title--caps" scope="col">
+                            <span class="slds-truncate" title="{! $Label.c.name }">{! $Label.c.name }</span>  
+                        </th>
+
+                        <th class="slds-is-sortable slds-text-title--caps" scope="col">
+                            <span class="slds-truncate" title="{! $Label.c.description }">{! $Label.c.description }</span>  
+                        </th>
+
+                        <th class="slds-is-sortable slds-text-title--caps" scope="col">
+                            <span class="slds-truncate" title="{! $Label.c.status }">{! $Label.c.status }</span>  
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <aura:iteration items="{! section.badges }" var="badge">
+                        <c:LearningSectionBadge badge="{! badge }"/> 
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </aura:iteration>
+    </fieldset>
+</aura:component>

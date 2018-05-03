@@ -1,0 +1,35 @@
+.THIS h1 {
+    font-size: 2rem;
+    margin-top: 3rem;
+}
+
+.THIS h2 {
+    font-size: 1.25rem;
+    margin: 1rem 0;
+}
+
+.THIS a {
+    font-size: 1rem;
+}
+
+.THIS h1,
+.THIS h2,
+.THIS a {
+    padding-left: 5rem;
+}
+
+.THIS div {
+    white-space: normal;
+}
+
+.THIS th:first-child,
+.THIS th:nth-child(4), 
+.THIS td:first-child,
+.THIS td:nth-child(4)  {
+    text-align: center;
+}
+
+.THIS .slds-table th,
+.THIS .slds-table td {
+    padding: .5rem 0;
+}

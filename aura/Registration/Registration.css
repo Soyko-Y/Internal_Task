@@ -1,0 +1,16 @@
+.THIS .registration-welcome-header {
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.THIS .registration-form-text-header {
+    font-size: 1.7rem;
+    text-align: center;
+    color: #008000;
+    margin-top: 0.7rem;
+}
+
+.THIS .registration-form-text {
+    font-size: 0.9rem;
+    margin: 0rem 1rem;
+}

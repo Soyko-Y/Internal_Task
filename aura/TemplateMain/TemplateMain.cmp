@@ -1,0 +1,92 @@
+<aura:component description="TemplateMain">
+
+  <!-- REQUIRED ATTRIBUTES -->
+  <aura:attribute name="headerFacet"        type="Aura.Component[]"         required="false"/>
+  <aura:attribute name="hasContent"         type="Boolean"  default="false" required="true"/>
+
+  <!-- ATTRIBUTES -->
+  <aura:attribute name="isCustomHeader"     type="Boolean"  default="false"/>
+  <aura:attribute name="spinnerSize"        type="String"   default="large"/>
+  <aura:attribute name="answerSuccess"      type="Boolean"  default="true"/>
+  <aura:attribute name="numberOfRequests"   type="Integer"  default="0"   />
+
+  <!-- LABEL ATTRIBUTES -->
+  <aura:attribute name="labelNoContent"          type="String"   default="There is no content"/>
+  <aura:attribute name="labelWaitingResponse"    type="String"   default="Waiting response from server"/>
+  <aura:attribute name="labelErrorOccurred"      type="String"   default="Error occurred"/>
+  <aura:attribute name="labelErrorHasNoMessage"  type="String"   default="Error has no message"/>
+
+  <!-- METHODS FOR PARENT COMPONENT -->
+  <aura:method name="doRequest">
+    <aura:attribute name="action"       type="Object"   required="true"/>
+    <aura:attribute name="callBack"     type="Object"   required="true"/>
+    <aura:attribute name="callBackFail" type="Object"   required="false"/>
+  </aura:method>
+
+  <aura:method name="addRequest">
+  </aura:method>
+
+  <aura:method name="subRequest">
+  </aura:method>
+
+  <aura:method name="goToDetail">
+    <aura:attribute name="itemId"       type="String"   required="true"/>
+  </aura:method>
+
+  <aura:method name="goToURL">
+    <aura:attribute name="path"         type="String"   required="true"/>
+  </aura:method>
+
+  <aura:method name="showMessage">
+    <aura:attribute name="title"        type="String"   required="true"/>
+    <aura:attribute name="message"      type="String"   required="true"/>
+    <aura:attribute name="type"         type="String"   required="false"/>
+  </aura:method>
+
+  <aura:method name="errorMessageLog">
+    <aura:attribute name="title"        type="String"   required="true"/>
+    <aura:attribute name="message"      type="String"   required="true"/>
+  </aura:method>
+
+  <aura:method name="slideBlock">
+    <aura:attribute name="timer"        type="Object"   required="true"/>
+    <aura:attribute name="element"      type="Object"   required="true"/>
+  </aura:method>
+
+  <!-- COMPONENT BODY -->
+
+  <!-- Component header -->
+  <aura:if isTrue="{!v.isCustomHeader}">
+          {!v.headerFacet}
+  </aura:if>
+
+  <!-- Main content -->
+  <aura:if isTrue="{!v.answerSuccess}">
+
+    <aura:if isTrue="{!v.hasContent}">
+
+            {!v.body}
+
+    </aura:if>
+
+    <!-- If server answer has no data -->
+    <aura:if isTrue="{!and(v.numberOfRequests == 0, not(v.hasContent))}">
+      <div class="slds-text-align--center cmp-no-content-container">
+              {!v.labelNoContent}
+      </div>
+    </aura:if>
+
+    <!-- If component is doing request to server -->
+    <lightning:spinner size="{!v.spinnerSize}"
+                       alternativeText="{!v.labelWaitingResponse}"
+                       class="{!'cmp-spinner-container ' + (v.numberOfRequests == 0 ? 'slds-hide' : '')}"/>
+
+    <!-- If server response has a error -->
+    <aura:set attribute="else">
+      <div class="slds-text-align--center cmp-error-container">
+              {!v.labelErrorOccurred}
+      </div>
+    </aura:set>
+  </aura:if>
+
+</aura:component>
